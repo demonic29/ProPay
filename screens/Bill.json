@@ -1,0 +1,23 @@
+[
+    {
+        "bill" : "Gas",
+        "amount" : 2200,
+        "icon" : "flame"
+    },
+    {
+        "bill" : "Water",
+        "amount" : 1500,
+        "icon" : "water"
+    },
+    {
+        "bill" : "Electric",
+        "amount" : 3000,
+        "icon"  : "flash"
+    },
+    {
+        "bill" : "Telephone",
+        "amount" : 2400,
+        "icon" : "phone-portrait-outline"
+    }
+
+]
