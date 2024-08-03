@@ -6,6 +6,8 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import {MaterialIcons} from 'react-native-vector-icons'
 import { useState , useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import LoadingScreen from '../components/LoadingScreen';
+import HeaderImg from '../components/HeaderImg';
 
 
 const ElectricCard = ({navigation}) => {
@@ -13,28 +15,26 @@ const ElectricCard = ({navigation}) => {
 
   const insets = useSafeAreaInsets();
   const { width, height } = useWindowDimensions();
+  const [loading, setLoading] = useState(false);
 
 
   const handleSubmit = () => {
-    return (
-      // Alert.alert('Are you sure to charge ?'),
-      setTimeout(() => {
-          navigation.navigate('FAQ')
-      }, 1000)
-    )
+    setLoading(true), 
+    setTimeout(() => {
+      navigation.navigate('FAQ')
+      setLoading(false)
+    }, 1000)
 }
 
 
   return (
+
+    loading ? <LoadingScreen text={"Please wait..."}/> :
+    
     <View style={{paddingTop : insets.top, height : '100%',backgroundColor : '#fff', justifyContent : 'center'}}>
 
       {/* main-img */}
-      <View style={{width : '80%', marginHorizontal : 'auto'}}>
-        <Image 
-          source={require('../imgs/7.png')}
-          style={{width : "100%", height : height / 4, }}
-        />
-      </View>
+      <HeaderImg img={require('../imgs/3.png')}/>
 
       {/* main-text */}
       <View style={{ justifyContent : 'center', marginTop : 50, paddingHorizontal : 50, gap : 20}}>

@@ -19,7 +19,7 @@ const CashPayment = ({ navigation }) => {
   };
 
   return (
-    isLoading ? <LoadingScreen /> : 
+    isLoading ? <LoadingScreen text={"Payment Proceessing"}/> : 
     <View style={styles.container}>
       <Header navigation={() => navigation.navigate('PaymentMethod')} />
       <View style={{ paddingHorizontal: 30, justifyContent: 'space-evenly', flex: 1 }}>

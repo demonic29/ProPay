@@ -1,0 +1,31 @@
+[
+    
+    {
+        "q" : "Can I use this card for shopping ?",
+        "a" : "Yes, you can use this card in Conbini or Supermarket.",
+        "changeLan" : "Change The Language"
+    },
+
+    {
+        "q" : "How much can I charge for one time ?",
+        "a" : "You can charge from 1000 to 1000 , but not over 10000 yen !",
+        "changeLan" : "Change The Language"
+
+        
+    },
+
+    {
+        "q" : "How can I charge ?",
+        "a" : "There are two ways you can charge which are Cash or Credit Card.",
+        "changeLan" : "Change The Language"
+
+    },
+
+    {
+        "q" : "Where can I use this card ?",
+        "a" : "You can use in transportation fee and shopping in supermarket",
+        "changeLan" : "Change The Language"
+
+    }
+
+]

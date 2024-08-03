@@ -19,14 +19,16 @@ const CreditPayment = ({ navigation }) => {
   };
 
   return (
-    isLoading ? <LoadingScreen /> : 
-    <KeyboardAvoidingView style={styles.container} keyboardVerticalOffset={0}>
+    isLoading ? <LoadingScreen text={"Payment Proceessing"}/> : 
+    <KeyboardAvoidingView style={styles.container} 
+      keyboardVerticalOffset={0}
+    >
       <Header navigation={() => navigation.navigate('PaymentMethod')} />
       <View style={{ paddingHorizontal: 30, justifyContent: 'space-evenly', flex: 1 }}>
         <HeaderImg img={require('../imgs/payment_credit.png')} />
         <ScrollView keyboardDismissMode="on-drag" keyboardShouldPersistTaps="handled">
           <View style={{ gap: 30 }}>
-            <View style={{ gap: 15 }}>
+            <View style={{ }}>
               <View>
                 <Text style={styles.title}>Fill Card Infos</Text>
               </View>
@@ -44,10 +46,12 @@ const CreditPayment = ({ navigation }) => {
                   style={styles.input}
                   placeholder="Input Card Pin"
                   secureTextEntry
+                  keyboardType='numeric'
+                  maxLength={4}
                 />
               </View>
             </View>
-            <View style={{ gap: 20 }}>
+            <View style={{ }}>
               <Text style={styles.title}>Payment infos</Text>
               <Text style={styles.infos}>Gas Bill: 2500¥</Text>
               <Text style={styles.infos}>Payment Method: Credit Card</Text>
@@ -72,15 +76,13 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Bold',
   },
   infos: {
-    fontFamily: 'Poppins-Regular',
+    fontFamily: 'Poppins-SemiBold',
     color: '#0007',
+    marginTop: 20
   },
   input: {
-    borderColor: '#0005',
-    borderWidth: 1,
+    borderBottomWidth: 1,
     height: 40,
-    paddingLeft: 10,
-    borderRadius: 5,
     overflow: 'hidden',
     marginTop: 5,
   },

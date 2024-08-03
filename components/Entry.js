@@ -19,9 +19,8 @@ const Entry = ({navigation}) => {
 
     return (
         <View style={{paddingTop : insets.top, justifyContent : 'center', flex : 1, alignItems : 'center',backgroundColor : '#fff', height : '100%'}}>
-            {/* <View style={{alignItems : 'center'}}>
-                <Text style={{fontFamily : 'Poppins-Bold', fontSize : 50, color: '#6EBBD1'}}>PROPAY</Text>
-            </View> */}
+            <Image source={require("../imgs/logo.png")} style={{width : 50, height : 50, objectFit : 'contain'}}/>
+
             <View style = {{marginTop : 50}}>
                 <Image
                     source={require('../imgs/7.png')}

@@ -1,15 +1,11 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
-// import { NavigationContainer } from '@react-navigation/native';
 import BottomTabs from '../routes/BottomTabs';
-import Home from '../screens/Home';
 import Profile from '../screens/Profile';
 import Request from '../screens/Request';
 import CustomDrawer from './CustomDrawer';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import ElectricCard from '../screens/ElectricCard';
-import FAQ from '../services/Electric_Card/FAQ';
-import BalanceCharge from '../services/Electric_Card/BalanceCharge'
 
 const Drawer = createDrawerNavigator();
 
@@ -59,22 +55,7 @@ function MyDrawer() {
           <Ionicons name='shapes' size={15}/>
         )}}
       />
-{/* 
-      <Drawer.Screen 
-        name="FAQ" 
-        component={FAQ}
-        options={{drawerIcon : () => (
-          <Ionicons name='shapes' size={15}/>
-        )}}
-      />
 
-      <Drawer.Screen 
-        name="BalanceCharge" 
-        component={BalanceCharge}
-        options={{drawerIcon : () => (
-          <Ionicons name='shapes' size={15}/>
-        )}}
-      /> */}
     </Drawer.Navigator> 
   );
 }

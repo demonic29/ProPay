@@ -1,13 +1,19 @@
 {
   "expo": {
-    "name": "Review",
-    "slug": "Review",
+    "name": "ProPay",
+    "slug": "propay",
+    "description": "An app for utility bills.",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo.png",
     "userInterfaceStyle": "light",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/logo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -34,6 +40,12 @@
             "fonts": [
               "./assets/fonts/Poppins.otf"
             ]
+          },
+          "expo-camera",
+          {
+            "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera",
+            "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone",
+            "recordAudioAndroid": true
           }
         ]
       ]
@@ -41,6 +53,17 @@
     "plugins": [
       "expo-font",
       "expo-localization"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "1bfdcd4e-f237-4691-90a2-913c0fa2e33a"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/1bfdcd4e-f237-4691-90a2-913c0fa2e33a"
+    }
   }
 }

@@ -81,7 +81,7 @@ const Request = ({ navigation }) => {
             </View>
           )}
         />
-      <FooterBtn navigation={() => navigation.navigate("BalanceCharge")} title={"Create Request"}/>
+      <FooterBtn navigation={() => navigation.navigate("RequestQr")} title={"Create Request"}/>
     </View>
   );
 };

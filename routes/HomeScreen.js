@@ -31,6 +31,12 @@ import PaymentMethod from '../services/Payment_Service/PaymentMethod';
 import CashPayment from '../services/Payment_Service/CashPayment';
 import CreditPayment from '../services/Payment_Service/CreditPayment'
 import PaymentReceipt from '../services/Payment_Service/PaymentReceipt';
+import ChangeLanguage from '../locales/ChangeLanguage';
+import TermsConditions from '../screens/TermsConditions';
+import RequestQr from '../services/Request/RequestQr';
+import CameraScreen from '../components/CameraScreen';
+import UserInfo from '../components/UserInfo';
+import MonthlyBills from '../screens/MonthlyBills';
 
 const Stack = createNativeStackNavigator();
 
@@ -161,6 +167,43 @@ const HomeScreen = () => {
                         component={PaymentReceipt}
                         options={{headerShown : false}}
                     /> 
+
+                    <Stack.Screen
+                        name='ChangeLanguage'
+                        component={ChangeLanguage}
+                        options={{headerShown : false}}
+                    />
+
+
+                    <Stack.Screen
+                        name='TermsConditions'
+                        component={TermsConditions}
+                        options={{headerShown : false}}
+                    />
+
+                    <Stack.Screen
+                        name='RequestQr'
+                        component={RequestQr}
+                        options={{headerShown : false}}
+                    />
+
+                    <Stack.Screen
+                        name='CameraScreen'
+                        component={CameraScreen}
+                        options={{headerShown : false}}
+                    />
+
+                    <Stack.Screen
+                        name='UserInfo'
+                        component={UserInfo}
+                        options={{headerShown : false}}
+                    />
+
+                    <Stack.Screen
+                        name='MonthlyBills'
+                        component={MonthlyBills}
+                        options={{headerShown : false}}
+                    />
 
                 </Stack.Navigator>
             </NavigationContainer>

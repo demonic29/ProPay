@@ -1,0 +1,24 @@
+{/* <TouchableNativeFeedback
+        onPress={() => {
+        LayoutAnimation.configureNext(LayoutAnimation.create(
+        200,
+        LayoutAnimation.Types.easeInEaseOut,
+        LayoutAnimation.Properties.opacity
+        ));
+        setShowLanguage(!showLanguage);
+        }}
+        >f
+        <View>
+        <Text>{t}</Text>
+        </View>
+    </TouchableNativeFeedback>
+
+    {showLanguage && (
+    <>
+        {languages.map((item, index) => (
+        <TouchableOpacity key={index} onPress={() => changeLanguage(item.code)}>
+            <Text>{t(`${item.name}`)}</Text>
+        </TouchableOpacity>
+    ))}
+    </>
+)} */}

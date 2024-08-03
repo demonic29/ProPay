@@ -1,28 +1,46 @@
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useWindowDimensions } from 'react-native';
-import { MaterialIcons } from 'react-native-vector-icons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { ScrollView } from 'react-native-gesture-handler';
-import { useFonts } from 'expo-font';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
+// components
 import HeaderImg from '../../components/HeaderImg';
 import Header from '../../components/Header';
 import FooterBtn from '../../components/FooterBtn';
 
+// language
+import i18next from '../../locales/i18next';
+import { useTranslation } from 'react-i18next';
+
+// Import FAQ data
+const enfaqDatas = require('../../locales/en/enFaq.json');
+const jafaqDatas = require('../../locales/ja/jaFaq.json');
+
 const FAQ = ({ navigation }) => {
   const insets = useSafeAreaInsets();
-  const { width, height } = useWindowDimensions();
+  const { t, i18n } = useTranslation();
 
-  // FAQ Data
-  const faqData = require('../Electric_Card/faq.json');
-  const [faq, setFaq] = useState(faqData);
+  const languages = [
+    { name: 'English', code: 'en' },
+    { name: 'Japanese', code: 'ja' },
+  ];
+
+  const [faqs, setFaqs] = useState(enfaqDatas);
+  const [showFaq, setShowFaq] = useState([]);
+  const [currentLanguage, setCurrentLanguage] = useState('en');
 
   useEffect(() => {
-    setFaq(faqData);
-  }, []);
+    if (currentLanguage === 'en') {
+      setFaqs(enfaqDatas);
+    } else if (currentLanguage === 'ja') {
+      setFaqs(jafaqDatas);
+    }
+  }, [currentLanguage]);
 
-  const [showFaq, setShowFaq] = useState([]);
+  const changeLanguage = (lng) => {
+    i18next.changeLanguage(lng);
+    setCurrentLanguage(lng);
+  };
 
   const toggleFaq = (index) => {
     setShowFaq((prev) => {
@@ -42,33 +60,36 @@ const FAQ = ({ navigation }) => {
 
       <View style={[styles.container, { paddingBottom: insets.bottom + 60 }]}>
         {/* Main Image */}
-        <HeaderImg img={require('../imgs/4.png')}/>
+        <HeaderImg img={require('../imgs/4.png')} />
 
         {/* FAQ Questions */}
         <FlatList
-          data={faq}
+          data={faqs}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item, index }) => (
             <View style={styles.faqItem}>
               <TouchableOpacity onPress={() => toggleFaq(index)} style={styles.questionContainer}>
-                <Text style={styles.question}>{item.q}</Text>
+                <Text style={styles.question}>{t(`${item.q}`)}</Text>
                 <MaterialIcons
-                  name={showFaq.includes(index) ? "keyboard-arrow-up" : "keyboard-arrow-down"}
+                  name={showFaq.includes(index) ? 'keyboard-arrow-up' : 'keyboard-arrow-down'}
                   size={24}
                   color="#000"
                 />
               </TouchableOpacity>
               {showFaq.includes(index) && (
-                <Text style={styles.answer}>{item.a}</Text>
+                <Text style={styles.answer}>{t(`${item.a}`)}</Text>
               )}
             </View>
           )}
           contentContainerStyle={{ paddingBottom: 100 }} // Provide enough padding to avoid overlapping the footer button
         />
+
+        {/* Language Selector */}
+       
       </View>
 
       {/* Footer Button */}
-      <FooterBtn navigation={() => navigation.navigate('BalanceCharge')} title={"Create ICOCA"}/>
+      <FooterBtn navigation={() => navigation.navigate('BalanceCharge')} title={'Create ProPay'} />
     </View>
   );
 };
@@ -95,14 +116,16 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     flex: 1,
     fontFamily: 'Poppins-SemiBold',
-    
   },
   answer: {
     color: '#555',
     marginTop: 10,
-    fontSize : 12,
+    fontSize: 12,
     fontFamily: 'Poppins-Regular',
-    
   },
- 
+  languageSelector: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 20,
+  },
 });

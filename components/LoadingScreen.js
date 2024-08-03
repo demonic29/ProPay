@@ -2,15 +2,15 @@
 import React from 'react';
 import { View, Text, StyleSheet, ActivityIndicator, Image } from 'react-native';
 
-const LoadingScreen = () => {
+const LoadingScreen = ({text}) => {
   return (
     <View style={styles.container}>
       <ActivityIndicator size="large" color="#00566F" />
-      <Text style={styles.text}>Payment Proccessing...</Text>
-      <Image
+      <Text style={styles.text}>{text}</Text>
+      {/* <Image
         source={require('../imgs/Chad_Loading.gif')}
-        style={{width:300, height : 300, borderRadius : 10, marginTop : 30}}
-      />
+        style={{width:200, height : 200, borderRadius : 100, marginTop : 30}}
+      /> */}
     </View>
   );
 };
@@ -24,9 +24,9 @@ const styles = StyleSheet.create({
   },
   text: {
     marginTop: 10,
-    fontSize: 20,
+    fontSize: 15,
     color: '#00566F',
-    fontFamily: 'Poppins-Bold',
+    fontFamily: 'Poppins-SemiBold',
   },
 });
 

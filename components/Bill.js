@@ -6,12 +6,7 @@ import { useFonts } from 'expo-font';
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 const Bill = ({navigation}) => {
-    const [fontsLoaded] = useFonts({
-        'SpaceGrotesk-Regular': require('../assets/noto-font/SpaceGrotesk-Regular.ttf'),
-        'SpaceGrotesk-SemiBold' : require('../assets/noto-font/SpaceGrotesk-SemiBold.ttf'),
-        'SpaceGrotesk-Bold': require('../assets/noto-font/SpaceGrotesk-Bold.ttf'),
-        // Add more fonts as needed
-    });
+   
 
     const { width, height } = useWindowDimensions();
     const insets = useSafeAreaInsets()
@@ -35,8 +30,8 @@ const Bill = ({navigation}) => {
     return (
         <View style={styles.container}>
             <View style={{marginTop: insets.top, width: '100%', paddingHorizontal: 30}}>
-                <Text style={{fontSize: 30, fontFamily: 'SpaceGrotesk-Bold', marginTop: 20}}>Choose the Utility Payment</Text>
-                <Text style={{fontFamily: 'SpaceGrotesk-Regular'}}>Choose one or multiple utility bills to pay!</Text>
+                <Text style={{fontSize: 30, fontFamily: 'Poppins-Bold', marginTop: 20}}>Choose the Utility Payment</Text>
+                <Text style={{fontFamily: 'Poppins-Regular'}}>Choose one or multiple utility bills to pay!</Text>
             </View>
             <View>
                 <Image 
@@ -66,9 +61,11 @@ const Bill = ({navigation}) => {
                         backgroundColor: '#00566F',
                         paddingVertical: 15,
                         paddingHorizontal: 20,
+                        borderRadius : 10,
+                        marginTop : 45,
                         width: width / 1.2,
                     }}
-                    onPress={() => navigation.navigate('SignUp')}>
+                    onPress={() => navigation.navigate('UserInfo')}>
                     <Text style={{color: '#fff', textAlign: 'center'}}>
                         Next
                     </Text>
@@ -108,7 +105,7 @@ const styles = StyleSheet.create({
     },
     billText: {
         color: '#000',
-        fontFamily: 'SpaceGrotesk-Regular'
+        fontFamily: 'Poppins-Regular'
     },
     selectedBillText: {
         color: '#fff',

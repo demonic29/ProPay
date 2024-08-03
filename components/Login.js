@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TextInput, Button, Image, useWindowDimensions } from 'react-native';
+import { View, Text, StyleSheet, TextInput, Button, Image, ActivityIndicator, KeyboardAvoidingView, Platform } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as ImagePicker from 'expo-image-picker';
@@ -7,34 +7,16 @@ import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { auth } from '../config/firebase';
 import { useFonts } from 'expo-font';
 import { signInWithEmailAndPassword } from 'firebase/auth';
+import HeaderImg from './HeaderImg';
+import FooterBtn from './FooterBtn';
 
-const Login = ({ navigation, }) => {
-  const { width, height } = useWindowDimensions();
+const Login = ({ navigation }) => {
   const insets = useSafeAreaInsets();
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
-  
-  const [fontsLoaded] = useFonts({
-    'SpaceGrotesk-Regular': require('../assets/noto-font/SpaceGrotesk-Regular.ttf'),
-    'SpaceGrotesk-SemiBold' : require('../assets/noto-font/SpaceGrotesk-SemiBold.ttf'),
-    'SpaceGrotesk-Bold': require('../assets/noto-font/SpaceGrotesk-Bold.ttf'),
-    'SpaceGrotesk-Bold': require('../assets/noto-font/SpaceGrotesk-Bold.ttf'),
-  }); 
-  
-  
-  const handleSubmit = async () => {
-    if (email && password) {
-      try {
-        await signInWithEmailAndPassword(auth, email, password);
-        navigation.navigate('MyDrawer')
-      } catch (err) {
-        console.log('got error', err);
-      }
-    }
-  };
-  
+  const [loading, setLoading] = useState(false);
   const [img, setImg] = useState(null);
-  // Store Image
+
   useEffect(() => {
     const loadImg = async () => {
       try {
@@ -46,11 +28,9 @@ const Login = ({ navigation, }) => {
         console.error('Failed to load Image', error);
       }
     };
-
     loadImg();
   }, []);
 
-  // Upload Image
   const handleImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -70,109 +50,156 @@ const Login = ({ navigation, }) => {
     }
   };
 
+  const handleSubmit = async () => {
+    if (email && password) {
+      try {
+        setLoading(true);
+        await signInWithEmailAndPassword(auth, email, password);
+        setLoading(false);
+        navigation.navigate('MyDrawer');
+      } catch (err) {
+        setLoading(false);
+        console.log('Error:', err);
+      }
+    }
+  };
 
   return (
-    <View style={{paddingTop: insets.top, flex :1, justifyContent : 'center' , paddingHorizontal:15, backgroundColor : 'white'}}>
-      {/* <View style={{ paddingHorizontal: 20, flex : 1, }}>
-      </View> */}
-      <Text style={{ fontSize: 20, fontFamily: 'SpaceGrotesk-Bold', marginTop: 20 , textAlign : 'center', textDecorationLine: 'underline'}}>Login</Text>
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0}
+    >
+      <ScrollView contentContainerStyle={{ flexGrow: 1, backgroundColor: 'white' }}>
+        <View style={styles.container}>
+          <Image source={require("../imgs/logo.png")} style={{width : 50, height : 50, objectFit : 'contain', marginBottom : 20}}/>
 
-      <View style={{ alignItems: 'center', marginTop: 30 }}>
-        <View>
-          {img && <Image source={{ uri: img }} style={{ width: 150, height: 150, borderRadius: 100 }} />}
-        </View>
-        <TouchableOpacity onPress={handleImage} activeOpacity={0.8}>
-          <Text style={{ marginTop: 20, textDecorationLine: 'underline', fontFamily : 'SpaceGrotesk-Regular'}}>Upload</Text>
-        </TouchableOpacity>
-      </View>
-
-      <ScrollView style={{ width: width / 1.1, marginTop: 30 , padding : 15}} keyboardDismissMode='on-drag'>
-
-        <View style={{gap : 20}}>
-          {/* Email */}
-          <View>
-            <Text style={{fontFamily : 'SpaceGrotesk-SemiBold'}}>Email</Text>
-            <TextInput
-              placeholder='yourname@gmail.com'
-              value={email}
-              onChangeText={value => setEmail(value)}
-              style={styles.input}
-              keyboardType="email-address"
-              autoCapitalize='none'
-            />
-          </View>
-
-          {/* password */}
-          <View>
-            <Text style={{fontFamily : 'SpaceGrotesk-SemiBold'}}>Password</Text>
-            <TextInput
-              placeholder='Enter Your Password'
-              value={password}
-              onChangeText={value => setPassword(value)}
-              style={styles.input}
-              secureTextEntry
-            />
-
-            {/* forgotPassword */}
-            <TouchableOpacity>
-              <Text style={styles.forgotPassword}>Forgot Password?</Text>
+          <View style={styles.imageContainer}>
+            {img && <Image source={{ uri: img }} style={styles.image} />}
+            <TouchableOpacity onPress={handleImage} activeOpacity={0.8}>
+              <Text style={styles.uploadText}>Upload</Text>
             </TouchableOpacity>
           </View>
+
+          <View style={styles.inputContainer}>
+            <View style={styles.inputWrapper}>
+              <Text style={styles.label}>Email</Text>
+              <TextInput
+                placeholder='yourname@gmail.com'
+                value={email}
+                onChangeText={setEmail}
+                style={styles.input}
+                keyboardType="email-address"
+                autoCapitalize='none'
+              />
+            </View>
+
+            <View style={styles.inputWrapper}>
+              <Text style={styles.label}>Password</Text>
+              <TextInput
+                placeholder='Enter Your Password'
+                value={password}
+                onChangeText={setPassword}
+                style={styles.input}
+                secureTextEntry
+              />
+              <TouchableOpacity>
+                <Text style={styles.forgotPassword}>Forgot Password?</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+        
+          <TouchableOpacity onPress={handleSubmit} style={styles.loginButton} disabled={loading}>
+            {loading ? <ActivityIndicator size="small" color="#fff" /> : <Text style={styles.loginButtonText}>Login</Text>}
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => navigation.navigate('UserInfo')} style={styles.signUpButton}>
+            <Text style={styles.signUpButtonText}>Don’t have an account? Sign up</Text>
+          </TouchableOpacity>
         </View>
 
         
-        <View>
-          <TouchableOpacity 
-            onPress={handleSubmit}
-            style={{
-              backgroundColor : '#00566F',
-              paddingVertical : 15,
-              paddingHorizontal : 20,
-              width : width / 1.2,
-              marginTop : 50,
-              marginHorizontal : 'auto'
-            }}
-          >
-            <Text style={{color : '#fff', textAlign : 'center', fontFamily : 'SpaceGrotesk-SemiBold'}}>Login</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-            <Text style={styles.signUpText}>Doesn’t have an account ? Sign in</Text>
-          </TouchableOpacity>
-        </View>
       </ScrollView>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
-
-  input: {
-    borderColor: '#0005',
-    borderWidth: 1,
-    height: 40,
-    paddingLeft: 10,
-    borderRadius: 5,
-    overflow: 'hidden',
-    marginTop: 10,
+  container: {
+    flex: 1,
+    paddingHorizontal: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-
-  forgotPassword: {
-    marginTop: 15,
-    fontFamily: 'SpaceGrotesk-SemiBold',
-    fontSize: 15,
-    color: '#0007',
-    textDecorationLine: 'underline',
-  },
-
-  signUpText: {
+  title: {
+    fontSize: 24,
+    fontFamily: 'Poppins-Bold',
+    marginVertical: 20,
     textAlign: 'center',
-    fontSize: 15,
-    color: '#0009',
-    marginTop: 15,
     textDecorationLine: 'underline',
-    fontFamily: 'SpaceGrotesk-SemiBold',
   },
-
+  imageContainer: {
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  image: {
+    width: 150,
+    height: 150,
+    borderRadius: 75,
+  },
+  uploadText: {
+    marginTop: 10,
+    textDecorationLine: 'underline',
+    fontFamily: 'Poppins-Regular',
+  },
+  inputContainer: {
+    width: '100%',
+    marginTop: 20,
+    gap: 20,
+  },
+  inputWrapper: {
+    marginBottom: 15,
+  },
+  label: {
+    fontFamily: 'Poppins-SemiBold',
+  },
+  input: {
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+    borderRadius: 5,
+    height: 40,
+    marginTop: 5,
+    fontFamily: 'Poppins-Regular',
+  },
+  forgotPassword: {
+    marginTop: 5,
+    fontFamily: 'Poppins-Regular',
+    fontSize: 12,
+    color: '#007BFF',
+  },
+  loginButton: {
+    backgroundColor: '#00566F',
+    paddingVertical: 15,
+    paddingHorizontal : 150,
+    borderRadius: 5,
+    width: '100%',
+    alignItems: 'center',
+    marginTop: 40,
+  },
+  loginButtonText: {
+    color: '#fff',
+    fontFamily: 'Poppins-SemiBold',
+  },
+  signUpButton: {
+    marginTop: 20,
+    alignItems: 'center',
+  },
+  signUpButtonText: {
+    color: '#007BFF',
+    fontFamily: 'Poppins-SemiBold',
+    textDecorationLine: 'underline',
+  },
 });
 
 export default Login;

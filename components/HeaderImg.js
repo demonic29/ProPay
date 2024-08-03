@@ -7,10 +7,10 @@ export default function HeaderImg({img}) {
     const {width , height} = useWindowDimensions();
     return (
         // Main-Image
-        <View style={{ width: '70%', marginHorizontal: 'auto',}}>
+        <View style={{ width: '50%', marginHorizontal: 'auto',}}>
             <Image
                 source={img}
-                style={{ width: '100%', height: height / 3.5 , borderRadius : 10}}
+                style={{ width: '100%', height: height / 4 , borderRadius : 10, objectFit : 'cover'}}
             />
         </View>
     )
